@@ -7,6 +7,7 @@ import {TbDeviceTvOld} from "react-icons/tb";
 import toast from "react-hot-toast";
 import axios from "axios";
 import logout from "../Images/logout.png";
+import {BASE_URL} from "../BaseURL/basurl";
 
 export const Navbar = ()=>{
     //get the current path location
@@ -15,7 +16,7 @@ export const Navbar = ()=>{
 
     //function to handle user logout
     const handleLogout = async()=>{
-        const {data} = await axios.get("http://localhost:8080/api/v1/user/logout");
+        const {data} = await axios.get(`${BASE_URL}/api/v1/user/logout`);
         if(data.success){
             navigate("/");
             window.location.reload();
