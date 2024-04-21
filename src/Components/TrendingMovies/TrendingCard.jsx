@@ -67,12 +67,12 @@ export const TrendingCard = ({movie,isauth})=>{
           <img src={movie.big_image} alt={movie.title} className="w-full h-full object-cover"/>
           {/* bookmark icon button */}
           <button onClick={()=>isBookmarked?removebookmark(movie._id):addtobookmark(movie._id)} className="bookmark-icon absolute top-0 right-0 p-2 z-10">
-            <FontAwesomeIcon icon={faBookmark} className={`${isBookmarked}?"text-yellow-500:"text-white`}/>
+            <FontAwesomeIcon icon={faBookmark} className={`${isBookmarked?"text-yellow-500":"text-white"}`}/>
           </button>
           <div className="play-text absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
             {/* play button */}
-            <button onClick={()=>isPlay} className="bg-black text-white px-4 py-2 rounded-full ">
-               play
+            <button onClick={isPlay} className="bg-black text-white px-4 py-2 rounded-full ">
+               Play
             </button>
             {/* Movie type */}
             <div className="absolute top-0 left-0 bg-black bg-opacity-75 w-full px-4 py-2">
