@@ -31,7 +31,12 @@ export const Trending = () => {
     useEffect(() => {
         const checkBookmarkStatus = async () => {
             try {
-                const { data } = await axios.get(`${BASE_URL}/api/v1/data/bookmark/check`);
+                const token = localStorage.getItem("jwtToken");
+                const { data } = await axios.get(`${BASE_URL}/api/v1/data/bookmark/check`,{
+                    headers:{
+                        Authorization:`Bearer ${token}`,
+                    }
+                });
                 if (data.success) {
                     dispatch(setbookmarkmoviedata(data.bookmarkmovie));
                     setIsauth(true);

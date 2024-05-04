@@ -18,9 +18,15 @@ export const BookmarkSearch = ()=>{
     const [isauth,setIsauth] = useState(true);
 
     const handleSubmit = async(e)=>{
+        
         e.preventDefault();
         try{
-            const {data} = await axios.get(`${BASE_URL}/api/v1/data/bookmark/search/${encodeURIComponent(query)}`);
+            const token = localStorage.getItem("jwtToken");
+            const {data} = await axios.get(`${BASE_URL}/api/v1/data/bookmark/search/${encodeURIComponent(query)}`,{
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                }
+            });
             if(data.success){
                 setSearch(data.searchData);
             }else{
@@ -33,8 +39,14 @@ export const BookmarkSearch = ()=>{
 
     useEffect(()=>{
         const checkBookmarkStatus = async()=>{
+            
             try{
-                const {data} = await axios.get(`${BASE_URL}/api/v1/data/bookmark/check`);
+                const token = localStorage.getItem("jwtToken");
+                const {data} = await axios.get(`${BASE_URL}/api/v1/data/bookmark/check`,{
+                    headers:{
+                        Authorization:`Bearer ${token}`,
+                    }
+                });
                 if(data.success){
                     setIsauth(true);
                     dispatch(setbookmarkmoviedata(data.bookmarkmovie));

@@ -6,7 +6,7 @@ import {Navbar} from "./Navbar";
 
 export const MovieDetailsPage = ()=>{
     const content = useSelector((state)=>state.detail.content);
-
+    console.log(content);
     //fucntion to render star rating
     const renderStarRating = (rating)=>{
         const stars = [];

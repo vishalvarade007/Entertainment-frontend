@@ -18,7 +18,7 @@ export const MultiSearch = ()=>{
     const handleSubmit = async(e)=>{
         e.preventDefault();
         try{
-            const response = await axios.get(`${BASE_URL}/api/v1/data/all/search/${encodeURIComponent(query)}`);
+            const response = await axios.get(`${BASE_URL}/api/v1/search/all/search/${encodeURIComponent(query)}`);
             if(response.data.success){
                 setSearch(response.data.searchData);
             }else{
@@ -32,7 +32,12 @@ export const MultiSearch = ()=>{
     useEffect(()=>{
        const checkBookmarkStatus = async()=>{
           try{
-            const {data} = await axios.get(`${BASE_URL}/api/v1/data/bookmark/check`);
+            const token = localStorage.getItem("jwtToken");
+            const {data} = await axios.get(`${BASE_URL}/api/v1/data/bookmark/check`,{
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                }
+            });
             if(data.success){
                 setIsauth(true);
                 dispatch(setbookmarkmoviedata(data.bookmarkmovie));

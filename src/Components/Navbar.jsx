@@ -6,7 +6,7 @@ import {MdLocalMovies,MdMovie} from "react-icons/md";
 import {TbDeviceTvOld} from "react-icons/tb";
 import toast from "react-hot-toast";
 import axios from "axios";
-import logout from "../Images/logout.png";
+import login from "../Images/login.png";
 import {BASE_URL} from "../BaseURL/basurl";
 
 export const Navbar = ()=>{
@@ -16,11 +16,19 @@ export const Navbar = ()=>{
 
     //function to handle user logout
     const handleLogout = async()=>{
-        const {data} = await axios.get(`${BASE_URL}/api/v1/user/logout`);
+        const token = localStorage.getItem("jwtToken");
+        const {data} = await axios.get(`${BASE_URL}/api/v1/user/logout`,{
+            headers:{
+                Authorization:`Bearer ${token}`,
+            }
+        });
+        
         if(data.success){
+            
             navigate("/");
             window.location.reload();
             toast.success(data.message);
+            console.log("logout called");
         }
         else{
             navigate("/login");
@@ -28,7 +36,7 @@ export const Navbar = ()=>{
     }
     const book = (pathname === "/bookmark"?"text-red-600":"text-white");
     const tv = (pathname === "/tvseries"?"text-red-600":"text-white");
-    const movie = (pathname === "/movie"?"text-red-600":"text-white");
+    const movie = (pathname === "/movies"?"text-red-600":"text-white");
     const root = (pathname === "/"?"text-red-600":"text-white");
     return (
         <div>
@@ -43,7 +51,7 @@ export const Navbar = ()=>{
                 <button type="button" onClick={handleLogout} className="relative flex bg-gray-800 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"  id="user-menu-button" aria-expanded="false" aria-haspopup="true"> 
                    <span className="absoulte -inset-1.5"></span>
                    <span className="sr-only">Open user menu</span>
-                   <img className="h-8 w-8" src={logout} alt="logout img"/>
+                   <img className="h-8 w-8" src={login} alt="login img"/>
                 </button>
             </nav>
         </div>

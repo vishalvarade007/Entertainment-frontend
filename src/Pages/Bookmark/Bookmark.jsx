@@ -16,11 +16,18 @@ export const Bookmark = ()=>{
     //state variables
     const [query,setQuery] = useState("");
     const [bookmark,setBookmark] = useState(null);
-
+ 
     //function to fetch bookmark data
     const getBookmark = async()=>{
+        
         try{
-            const {data} = await axios.get(`${BASE_URL}/api/v1/data/bookmark`);
+            const token = localStorage.getItem("jwtToken");
+            const {data} = await axios.get(`${BASE_URL}/api/v1/data/bookmark`,{
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                }
+            });
+           
             if(data.success){
                 setBookmark(data.bookmark);
             }else{
@@ -36,7 +43,7 @@ export const Bookmark = ()=>{
         setBookmark(prevState =>({
             ...prevState,
             bookmarkmovie:prevState.bookmarkmovie.filter(movie=>movie._id !== id),
-            bookmarkseries:prevState.bookmarkseries.filter(series._id !== id),
+            bookmarkseries:prevState.bookmarkseries.filter(series=>series._id !== id),
         }))
     };
 
@@ -48,7 +55,12 @@ export const Bookmark = ()=>{
     const handleSubmit = async(e)=>{
          e.preventDefault();
          try{
-            const response = await axios.get(`${BASE_URL}/api/v1/data/bookmark/search/${encodeURIComponent(query)}`);
+            const token = localStorage.getItem("jwtToken");
+            const response = await axios.get(`${BASE_URL}/api/v1/data/bookmark/search/${encodeURIComponent(query)}`,{
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                }
+            });
             if(response.data.success){
                 dispatch(setsearchInput(response.data.searchData));
                 navigate("/search/bookmark")
@@ -89,7 +101,7 @@ export const Bookmark = ()=>{
                 {/* Bookmark TV Series */}
                 <h1 className="p-4 text-xl text-cyan-600">Bookmark TVSeries</h1>
                 <div className="grid grid-cols-5 px-4 sm:grid-cols-3 2sm:grid-cols-2">
-                    {bookmark ? bookmark.bookmarkseries.lenght !== 0 ? (
+                    {bookmark ? bookmark.bookmarkseries.length !== 0 ? (
                         bookmark.bookmarkseries.map((series,i)=>{
                             return <TVBookmarkCard key={i} series={series} removeBookmarkCard={removeBookmarkCard}/>
                         })

@@ -32,7 +32,13 @@ export const RecommendMovieCard = ({ movie, isauth }) => {
     //function to add movie to bookmark
     const addtobookmark = async (id) => {
         try {
-            const { data } = await axios.post(`${BASE_URL}/api/v1/data/bookmark/add`, { movieId: id });
+            const token = localStorage.getItem("jwtToken");
+            const { data } = await axios.post(`${BASE_URL}/api/v1/data/bookmark/add`, { movieId: id },{
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                }
+            });
+            console.log(data);
             if (data.success) {
                 setIsbookmarked(true);
                 toast.success("movie bookmarked");
@@ -47,7 +53,12 @@ export const RecommendMovieCard = ({ movie, isauth }) => {
     //function to remove movie from bookmark
     const removebookmark = async (id) => {
         try {
-            const { data } = await axios.delete(`${BASE_URL}/api/v1/data/bookmark/remove/${id}`);
+            const token = localStorage.getItem("jwtToken");
+            const { data } = await axios.delete(`${BASE_URL}/api/v1/data/bookmark/remove/${id}`,{
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                }
+            });
             if (data.success) {
                 setIsbookmarked(false);
                 toast.success("movie unbookmarked");

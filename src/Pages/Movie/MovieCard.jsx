@@ -31,10 +31,19 @@ export const MovieCard = ({movie,imageUrl,title,movieid,isauth})=>{
 
        //function to add movie to bookmark
        const addtobookmark = async(id)=>{
+         console.log("add is called..");
+         
           try{
-             const {data} = await axios.post(`${BASE_URL}/api/v1/data/bookmark/add`,{movieId:id});
+             const token = localStorage.getItem("jwtToken");
+             const {data} = await axios.post(`${BASE_URL}/api/v1/data/bookmark/add`,{movieId:id},{
+               headers:{
+                  Authorization:`Bearer ${token}`,
+               }
+             });
+             console.log(data);
              if(data.success){
                 toast.success("movie bookmarked..");
+                
                 setIsbookmarked(true);
              }else{
                 navigate("/login");
@@ -48,7 +57,12 @@ export const MovieCard = ({movie,imageUrl,title,movieid,isauth})=>{
        //function remove movie from bookmark
        const removebookmark = async(id)=>{
            try{
-              const {data} = await axios.delete(`${BASE_URL}/api/v1/data/bookmark/remove/${id}`);
+            const token = localStorage.getItem("jwtToken");
+              const {data} = await axios.delete(`${BASE_URL}/api/v1/data/bookmark/remove/${id}`,{
+               headers:{
+                  Authorization:`Bearer ${token}`,
+               }
+              });
               if(data.success){
                   toast.success("movie unbookmarked..");
                   setIsbookmarked(false);
@@ -69,7 +83,7 @@ export const MovieCard = ({movie,imageUrl,title,movieid,isauth})=>{
            dispatch(setcontent(movie));
            navigate("detail");
        };
-
+       
        return (
           <div className="movie-card relative overflow-hidden group">
              <img src={imageUrl} alt={title} className="w-full h-auto object-cover"/>

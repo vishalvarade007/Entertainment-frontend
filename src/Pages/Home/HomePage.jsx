@@ -20,7 +20,8 @@ export const HomePage = ()=>{
     const handleSubmit = async(e)=>{
         e.preventDefault();
         try{
-            const response = await axios.get(`${BASE_URL}/api/v1/data/all/search/${encodeURIComponent(query)}`);
+            const response = await axios.get(`${BASE_URL}/api/v1/search/all/search/${encodeURIComponent(query)}`);
+            console.log(response);
             if(response.data.success){
                 dispatch(setsearchInput(response.data.searchData));
                 navigate("/search/multi");
@@ -28,7 +29,7 @@ export const HomePage = ()=>{
                 console.log(response.data.message);
             }
         }catch(error){
-            console.log(error);
+            console.log(error.response);
         }
     };
 

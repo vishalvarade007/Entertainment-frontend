@@ -37,7 +37,7 @@ export const Movie = ()=>{
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent default form submission behavior
         try {
-            const response = await axios.get(`${BASE_URL}/api/v1/data/movie/search/${encodeURIComponent(query)}`);
+            const response = await axios.get(`${BASE_URL}/api/v1/search/movie/search/${encodeURIComponent(query)}`);
             if (response.data.success) {
                 dispatch(setsearchInput(response.data.moviedata)); // Set search input in Redux store
                 navigate('/search/movie'); // Navigate to search results page
@@ -55,7 +55,12 @@ export const Movie = ()=>{
      useEffect(() => {
         const checkBookmarkStatus = async () => {
             try {
-                const { data } = await axios.get(`${BASE_URL}/api/v1/data/bookmark/check`);
+                const token = localStorage.getItem("jwtToken");
+                const { data } = await axios.get(`${BASE_URL}/api/v1/data/bookmark/check`,{
+                    headers:{
+                        Authorization:`Bearer ${token}`,
+                    }
+                });
                 if (data.success) {
                     setIsauth(true); // User is authenticated
                     dispatch(setbookmarkmoviedata(data.bookmarkmovie)); // Set bookmarked movies
@@ -69,7 +74,7 @@ export const Movie = ()=>{
 
         checkBookmarkStatus(); // Call the function to check bookmark status
     }, []);
-
+    
     return (
        <div>
           <Navbar/>
@@ -85,7 +90,7 @@ export const Movie = ()=>{
                         </svg>
                     </div>
                     <input type="search" id="deafult-search" value={query} onChange={(e)=>setQuery(e.target.value)} className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Movies..." />
-                    <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"></button>
+                    <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                 </div>
              </form>
           </div>

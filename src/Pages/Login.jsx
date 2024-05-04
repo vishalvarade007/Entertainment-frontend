@@ -13,14 +13,18 @@ export const Login = () => {
     const [email, setEmail] = useState("");
     const [showPassword, setshowPassword] = useState(false);
     const [password, setPassword] = useState("");
-
+   
+  
     //function for login validation
     const loginValidation = async (e) => {
         e.preventDefault();
+        
         try {
             const { data } = await axios.post(`${BASE_URL}/api/v1/user/login`, { email: email, password: password });
             if (data.success) {
                 toast.success("login successfull..");
+                console.log(data);
+                localStorage.setItem("jwtToken",data.token);
                 navigate("/");
             } else {
                 toast.error("invalid email or password");

@@ -30,9 +30,14 @@ export const RecommendSeries = ()=>{
      useEffect(() => {
         const checkBookmarkStatus = async () => {
             try {
-                const { data } = await axios.get(`${BASE_URL}/api/v1/data/bookmark/check`);
+                const token = localStorage.getItem("jwtToken");
+                const { data } = await axios.get(`${BASE_URL}/api/v1/data/bookmark/check`,{
+                    headers:{
+                        Authorization:`Bearer ${token}`,
+                    }
+                });
                 if (data.success) {
-                    dispatch(setTvbookmarkdata(data.bookmarkseries));
+                    dispatch(setbookmarkseriesdata(data.bookmarkseries));
                     setIsauth(true);
                 } else {
                     setIsauth(false);
@@ -48,7 +53,7 @@ export const RecommendSeries = ()=>{
     return (
         <div className="container mx-auto py-8">
           <div className="grid grid-cols-5 gap-4 px-4 sm:grid-cols-3 2sm:grid-cols-2">
-            {rSeries ? rSeries.recommendseries.map(series=>{
+            {rSeries ? rSeries.recommendedseries.map((series)=>{
                 return <RecommendSeriesCard key={series._id} series={series} isauth={isauth}/>
             }):<Loader/>}
           </div>

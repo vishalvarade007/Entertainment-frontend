@@ -33,7 +33,13 @@ export const RecommendSeriesCard = ({ series, isauth }) => {
     //function to add series to bookmark
     const addtobookmark = async (id) => {
         try {
-            const { data } = await axios.post(`${BASE_URL}/api/v1/data/bookmark/add`, { tvId: id });
+            const token = localStorage.getItem("jwtToken");
+            const { data } = await axios.post(`${BASE_URL}/api/v1/data/bookmark/add`, { tvId: id },{
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                }
+            });
+            console.log(data);
             if (data.success) {
                 setIsbookmarked(true);
                 toast.success("series bookmarked");
@@ -48,7 +54,12 @@ export const RecommendSeriesCard = ({ series, isauth }) => {
     //function to remove series from bookmark
     const removebookmark = async (id) => {
         try {
-            const { data } = await axios.delete(`${BASE_URL}/api/v1/data/bookmark/remove/${id}`);
+            const token = localStorage.getItem("jwtToken");
+            const { data } = await axios.delete(`${BASE_URL}/api/v1/data/bookmark/remove/${id}`,{
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                }
+            });
             if (data.success) {
                 setIsbookmarked(false);
                 toast.success("series unbookmarked");

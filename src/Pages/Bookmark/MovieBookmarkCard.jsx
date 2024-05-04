@@ -15,7 +15,12 @@ export const MovieBookmarkCard = ({movie,removeBookmarkCard})=>{
        //function to remove bookmark
        const removeBookmark = async(id)=>{
            try{
-            const {data} = await axios.delete(`${BASE_URL}/api/v1/data/bookmark/remove/${id}`);
+            const token = localStorage.getItem("jwtToken");
+            const {data} = await axios.delete(`${BASE_URL}/api/v1/data/bookmark/remove/${id}`,{
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                }
+            });
             if(data.success){
                toast.success("unbookmark");
                removeBookmarkCard(id);
