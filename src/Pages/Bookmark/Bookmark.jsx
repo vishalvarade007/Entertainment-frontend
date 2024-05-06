@@ -29,6 +29,7 @@ export const Bookmark = ()=>{
             });
            
             if(data.success){
+                console.log(data);
                 setBookmark(data.bookmark);
             }else{
                 navigate("/login");
@@ -71,7 +72,6 @@ export const Bookmark = ()=>{
             console.log(error);
          }
     };
-
     return (
         <div>
             <Navbar/>

@@ -19,6 +19,7 @@ export const Movie = ()=>{
     //function to fetch movies
     const getMovies = async()=>{
         try{
+            
             const {data} = await axios.get(`${BASE_URL}/api/v1/data/movies`);
             if(data.success){
                 setMovie(data.moviedata);

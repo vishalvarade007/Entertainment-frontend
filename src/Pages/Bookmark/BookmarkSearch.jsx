@@ -28,7 +28,7 @@ export const BookmarkSearch = ()=>{
                 }
             });
             if(data.success){
-                setSearch(data.searchData);
+                setSearch(data.searchdata);
             }else{
                 console.log(data.message);
             }

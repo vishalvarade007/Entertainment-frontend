@@ -6,6 +6,7 @@ import {TVSeriesCard} from "../TVSeries/TVSeriesCard";
 import {setbookmarkmoviedata,setbookmarkseriesdata} from "../../Redux/Slices/detailSlice";
 import axios from "axios";
 import {BASE_URL} from "../../BaseURL/basurl";
+import toast from "react-hot-toast";
 
 export const MultiSearch = ()=>{
     const dispatch = useDispatch();
@@ -23,9 +24,11 @@ export const MultiSearch = ()=>{
                 setSearch(response.data.searchData);
             }else{
                 console.log(response.data.message);
+               
             }
         }catch(error){
             console.log(error);
+            toast.error("No results found");
         }
     };
 

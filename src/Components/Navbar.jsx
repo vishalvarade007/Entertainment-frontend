@@ -24,7 +24,7 @@ export const Navbar = ()=>{
         });
         
         if(data.success){
-            
+            localStorage.removeItem("jwtToken");
             navigate("/");
             window.location.reload();
             toast.success(data.message);

@@ -9,6 +9,7 @@ import {Preloader} from "../../Components/Preloader";
 import {setsearchInput} from "../../Redux/Slices/searchSlice";
 import axios from "axios";
 import {BASE_URL} from "../../BaseURL/basurl";
+import toast from "react-hot-toast";
 
 export const HomePage = ()=>{
     const dispatch = useDispatch();
@@ -27,9 +28,11 @@ export const HomePage = ()=>{
                 navigate("/search/multi");
             }else{
                 console.log(response.data.message);
+                
             }
         }catch(error){
             console.log(error.response);
+            toast.error(error.response.data.message);
         }
     };
 
